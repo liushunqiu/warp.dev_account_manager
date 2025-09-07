@@ -1,0 +1,16 @@
+{
+  "ext_name": { "message": "Warp 账户桥接" },
+  "ext_description": { "message": "用于 Warp 账户管理的桥接扩展" },
+  "action_title": { "message": "Warp 账户桥接" },
+  "btn_add_to_manager": { "message": "添加到 Warp 管理器" },
+  "status_processing": { "message": "处理中..." },
+  "status_extracting": { "message": "正在提取数据..." },
+  "status_sending": { "message": "正在发送到应用..." },
+  "status_added_success": { "message": "✅ 添加成功！" },
+  "status_error_prefix": { "message": "❌ 错误: " },
+  "error_bridge_not_running": { "message": "桥接服务未运行。请先启动 Warp 账户管理器！" },
+  "error_no_account_data": { "message": "没有可用的账户数据" },
+  "error_database_read": { "message": "数据库读取错误" },
+  "error_db_connection": { "message": "数据库连接错误" }
+}
+

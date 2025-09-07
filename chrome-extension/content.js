@@ -6,6 +6,14 @@ const BRIDGE_CONFIG = {
   extensionId: "warp-account-bridge-v1",
 };
 
+function t(key, subs) {
+  try {
+    return chrome.i18n.getMessage(key, subs || []) || key;
+  } catch (e) {
+    return key;
+  }
+}
+
 let bridgeButton = null;
 let isDataExtracted = false;
 let isProcessing = false;
@@ -58,13 +66,13 @@ async function extractAccountData() {
               return;
             }
           }
-          reject(new Error("No valid account data found"));
+          reject(new Error(t('error_no_account_data')));
         };
 
-        objectStore.getAll().onerror = () => reject(new Error("Database read error"));
+        objectStore.getAll().onerror = () => reject(new Error(t('error_database_read')));
       };
 
-      request.onerror = () => reject(new Error("Database connection error"));
+      request.onerror = () => reject(new Error(t('error_db_connection')));
     });
   } catch (error) {
     throw new Error(`Data extraction failed: ${error.message}`);
@@ -96,7 +104,7 @@ async function sendDataToPythonApp(accountData) {
   } catch (error) {
     console.error("Bridge connection error:", error);
     if (error.message.includes("Failed to fetch") || error.message.includes("ERR_CONNECTION_REFUSED")) {
-      return { success: false, message: "Bridge server not running. Please start Warp Account Manager first!" };
+      return { success: false, message: t('error_bridge_not_running') };
     }
     return { success: false, message: `Connection failed: ${error.message}` };
   }
@@ -133,10 +141,9 @@ function createBridgeButton() {
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.1);
     " onmouseover="this.style.transform='translateX(-50%) translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)'"
-       onmouseout="this.style.transform='translateX(-50%)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.15)'"
-       onclick="this.querySelector('.text').textContent='Processing...'; this.style.pointerEvents='none';">
+       onmouseout="this.style.transform='translateX(-50%)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.15)'">
       <div style="width: 8px; height: 8px; background: #fff; border-radius: 50%; opacity: 0.8;"></div>
-      <div class="text">Add to Warp Manager</div>
+      <div class="text">${t('btn_add_to_manager')}</div>
     </div>
   `;
 
@@ -163,7 +170,7 @@ async function handleButtonClick() {
 
   try {
     console.log("Starting account extraction process...");
-    buttonText.textContent = "Extracting data...";
+    buttonText.textContent = t('status_extracting');
 
     // Check data availability first
     const hasData = await checkDataAvailability();
@@ -174,12 +181,12 @@ async function handleButtonClick() {
     const accountData = await extractAccountData();
     console.log("Account data extracted successfully");
 
-    buttonText.textContent = "Sending to app...";
+    buttonText.textContent = t('status_sending');
     const result = await sendDataToPythonApp(accountData);
 
     if (result.success) {
       console.log("Account added successfully via bridge");
-      buttonText.textContent = "✅ Added successfully!";
+      buttonText.textContent = t('status_added_success');
       bridgeButton.style.background = "linear-gradient(135deg, #4CAF50 0%, #45a049 100%)";
       isDataExtracted = true;
 
@@ -212,7 +219,7 @@ async function handleButtonClick() {
     }
   } catch (error) {
     console.error("Bridge error:", error);
-    buttonText.textContent = "❌ Error: " + error.message;
+    buttonText.textContent = t('status_error_prefix') + error.message;
     bridgeButton.style.background = "linear-gradient(135deg, #f44336 0%, #d32f2f 100%)";
 
     // Reset button after 5 seconds

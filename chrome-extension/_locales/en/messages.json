@@ -1,0 +1,16 @@
+{
+  "ext_name": { "message": "Warp Account Bridge" },
+  "ext_description": { "message": "Bridge extension for Warp account management" },
+  "action_title": { "message": "Warp Account Bridge" },
+  "btn_add_to_manager": { "message": "Add to Warp Manager" },
+  "status_processing": { "message": "Processing..." },
+  "status_extracting": { "message": "Extracting data..." },
+  "status_sending": { "message": "Sending to app..." },
+  "status_added_success": { "message": "✅ Added successfully!" },
+  "status_error_prefix": { "message": "❌ Error: " },
+  "error_bridge_not_running": { "message": "Bridge server not running. Please start Warp Account Manager first!" },
+  "error_no_account_data": { "message": "No account data available" },
+  "error_database_read": { "message": "Database read error" },
+  "error_db_connection": { "message": "Database connection error" }
+}
+

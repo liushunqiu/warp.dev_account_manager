@@ -98,7 +98,7 @@ class WarpProxyHandler:
             conn.close()
             return None, None
         except Exception as e:
-            print(f"Aktif hesap alma hatası: {e}")
+            print(_('active_account_fetch_error').format(e))
             return None, None
 
     def update_active_token(self):
@@ -464,12 +464,11 @@ def response(flow: http.HTTPFlow) -> None:
 
     # /ai/multi-agent endpoint'inde 403 hatası - hesap banlanmış
     if "/ai/multi-agent" in flow.request.path and flow.response.status_code == 403:
-        print("⛔ 403 FORBIDDEN - Hesap banlanmış tespit edildi!")
         if handler.active_email:
-            print(f"Banlanmış hesap: {handler.active_email}")
+            print(_('account_banned_detected').format(handler.active_email))
             handler.mark_account_as_banned(handler.active_email)
         else:
-            print("Aktif hesap bulunamadı, ban işareti konulamadı")
+            print(_('active_account_ban_mark_failed'))
 
     # Eğer 401 hatası alındıysa token yenilemeyi dene
     if flow.response.status_code == 401:
@@ -484,10 +483,10 @@ def load(loader):
     print("Veritabanı bağlantısı kontrol ediliyor...")
     handler.update_active_token()
     if handler.active_email:
-        print(f"Aktif hesap yüklendi: {handler.active_email}")
+        print(_('active_account_loaded').format(handler.active_email))
         print(f"Token var: {handler.active_token is not None}")
     else:
-        print("Aktif hesap bulunamadı - Bir hesabı aktif etmeyi unutmayın!")
+        print(_('active_account_missing_reminder'))
 
     # user_settings.json dosyasını yükle
     print("user_settings.json dosyası yükleniyor...")

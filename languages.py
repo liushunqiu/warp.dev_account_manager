@@ -32,6 +32,11 @@ class LanguageManager:
                     'turkish' in locale_lower or
                     'türk' in locale_lower):
                     return 'tr'
+                # 中文检测
+                elif (locale_lower.startswith('zh') or
+                      'chinese' in locale_lower or
+                      '中文' in locale_lower):
+                    return 'zh'
 
             # Varsayılan olarak İngilizce
             return 'en'
@@ -260,6 +265,22 @@ Sertifikayı manuel olarak kurmanız gerekiyor. Bu işlem sadece bir kez yapıl�
                 'account_delete_error': 'Hesap silme hatası: {}',
                 'limit_info_update_error': 'Limit bilgisi güncelleme hatası: {}',
 
+                'account_deactivate_failed': 'Hesap deaktif edilemedi',
+                'delete_account_title': 'Hesap Sil',
+                'bridge_account_added': '✅ Bridge: Hesap eklendi - {}',
+                'bridge_account_add_error': '❌ Bridge: Hesap ekleme hatası - {}',
+                'bridge_extension_connected': '🔗 Bridge: Eklenti bağlandı - ID: {}',
+                'bridge_server_started': '🌉 Bridge Sunucusu başlatıldı: http://localhost:{}',
+                'bridge_server_start_error': '❌ Bridge Sunucusu başlatma hatası: {}',
+                'bridge_server_runtime_error': '❌ Bridge Sunucusu çalışma hatası: {}',
+                'bridge_server_stopped': '🛑 Bridge Sunucusu durduruldu',
+                'bridge_setup_error': '❌ Bridge: Kurulum hatası - {}',
+                'active_account_missing_reminder': 'Aktif hesap bulunamadı - Bir hesabı aktif etmeyi unutmayın!',
+                'table_update_error': '⚠️ Tablo güncelleme hatası: {}',
+                'bridge_add_account_error': '❌ Bridge: Hesap ekleme hatası - {}',
+                'active_account_ban_mark_failed': 'Aktif hesap bulunamadı, ban işareti konulamadı',
+                'active_account_loaded': 'Aktif hesap yüklendi: {}',
+                'active_account_fetch_error': 'Aktif hesap alma hatası: {}',
 
             },
 
@@ -481,7 +502,259 @@ You need to install the certificate manually. This process is done only once and
                 'account_delete_error': 'Account delete error: {}',
                 'limit_info_update_error': 'Limit info update error: {}',
 
+                'account_deactivate_failed': 'Failed to deactivate account',
+                'delete_account_title': 'Delete Account',
+                'bridge_account_added': '✅ Bridge: Account added - {}',
+                'bridge_account_add_error': '❌ Bridge: Account add error - {}',
+                'bridge_extension_connected': '🔗 Bridge: Extension connected - ID: {}',
+                'bridge_server_started': '🌉 Bridge Server started: http://localhost:{}',
+                'bridge_server_start_error': '❌ Bridge Server start error: {}',
+                'bridge_server_runtime_error': '❌ Bridge Server runtime error: {}',
+                'bridge_server_stopped': '🛑 Bridge Server stopped',
+                'bridge_setup_error': '❌ Bridge: Setup error - {}',
+                'active_account_missing_reminder': 'Active account not found - Remember to activate one!',
+                'table_update_error': '⚠️ Table update error: {}',
+                'bridge_add_account_error': '❌ Bridge: Add account error - {}',
+                'active_account_ban_mark_failed': 'Active account not found, cannot mark ban',
+                'active_account_loaded': 'Active account loaded: {}',
+                'active_account_fetch_error': 'Active account fetch error: {}',
 
+            },
+
+            'zh': {
+                # 通用
+                'app_title': 'Warp 账户管理器',
+                'yes': '是',
+                'no': '否',
+                'ok': '确定',
+                'cancel': '取消',
+                'close': '关闭',
+                'error': '错误',
+                'success': '成功',
+                'warning': '警告',
+                'info': '信息',
+
+                # 按钮
+                'proxy_start': '启动代理',
+                'proxy_stop': '停止代理',
+                'proxy_active': '代理已激活',
+                'add_account': '添加账户',
+                'refresh_limits': '刷新限制',
+                'help': '帮助',
+                'activate': '🟢 激活',
+                'deactivate': '🔴 停用',
+                'delete_account': '🗑️ 删除账户',
+                'create_account': '🌐 创建账户',
+                'add': '添加',
+                'copy_javascript': '📋 复制 JavaScript 代码',
+                'copied': '✅ 已复制!',
+                'copy_error': '❌ 错误!',
+                'open_certificate': '📁 打开证书文件',
+                'installation_complete': '✅ 安装完成',
+
+                # 表格标题
+                'current': '当前',
+                'email': '邮箱',
+                'status': '状态',
+                'limit': '限制',
+
+                # 激活按钮文本
+                'button_active': '已激活',
+                'button_inactive': '未激活',
+                'button_banned': '已封禁',
+                'button_start': '启动',
+                'button_stop': '停止',
+
+                # 状态消息
+                'status_active': '已激活',
+                'status_banned': '已封禁',
+                'status_token_expired': '令牌已过期',
+                'status_proxy_active': ' (代理已激活)',
+                'status_error': '错误',
+                'status_na': 'N/A',
+                'status_not_updated': '未更新',
+                'status_healthy': '健康',
+                'status_unhealthy': '不健康',
+                'status_banned_key': 'banned',
+
+                # 添加账户
+                'add_account_title': '添加账户',
+                'add_account_instruction': '请在下方粘贴账户 JSON 数据:',
+                'add_account_placeholder': '在此粘贴 JSON 数据...',
+                'how_to_get_json': '❓ 如何获取 JSON 数据?',
+                'how_to_get_json_close': '❌ 关闭',
+                'json_info_title': '如何获取 JSON 数据?',
+
+                # 添加账户对话框标签
+                'tab_manual': '手动',
+                'tab_auto': '自动',
+                'manual_method_title': '手动添加 JSON',
+                'auto_method_title': '通过 Chrome 扩展自动添加',
+
+                # Chrome 扩展描述
+                'chrome_extension_title': '🌐 Chrome 扩展',
+                'chrome_extension_description': '您可以使用我们的 Chrome 扩展自动添加账户。这种方法更快更便捷。',
+                'chrome_extension_step_1': '<b>步骤 1:</b> 手动安装 Chrome 扩展',
+                'chrome_extension_step_2': '<b>步骤 2:</b> 访问 Warp.dev 网站并创建新账户',
+                'chrome_extension_step_3': '<b>步骤 3:</b> 创建账户后，点击重定向页面上的扩展按钮',
+                'chrome_extension_step_4': '<b>步骤 4:</b> 扩展会自动将账户添加到此程序',
+
+                # 获取 JSON 步骤
+                'step_1': '<b>步骤 1:</b> 访问 Warp 网站并登录',
+                'step_2': '<b>步骤 2:</b> 打开浏览器开发者控制台 (F12)',
+                'step_3': '<b>步骤 3:</b> 转到控制台选项卡',
+                'step_4': '<b>步骤 4:</b> 将以下 JavaScript 代码粘贴到控制台中',
+                'step_5': '<b>步骤 5:</b> 按下回车键',
+                'step_6': '<b>步骤 6:</b> 点击页面上出现的按钮',
+                'step_7': '<b>步骤 7:</b> 将复制的 JSON 粘贴到这里',
+
+                # 帮助
+                'help_title': '📖 Warp 账户管理器 - 使用指南',
+                'help_what_is': '🎯 这个软件有什么作用?',
+                'help_what_is_content': '您可以查看创建的账户之间剩余的限制，并通过点击启动按钮轻松切换。它通过为每次操作使用不同的 ID 来防止您被封禁。',
+                'help_how_works': '⚙️ 它是如何工作的?',
+                'help_how_works_content': '它使用代理修改 Warp 编辑器发出的请求。它使用您选择的账户信息和不同的用户 ID 来执行操作。',
+                'help_how_to_use': '📝 如何使用?',
+                'help_how_to_use_content': '''<b>初始设置:</b><br>
+由于它通过代理工作，首次启动时需要在计算机的受信任根证书区域安装指定的证书。完成说明后，打开 Warp 编辑器并登录任何账户。您必须首先通过编辑器登录账户。<br><br>
+
+<b>添加账户 (2 种方法):</b><br>
+<b>1. Chrome 扩展:</b> 将我们的扩展安装到 Chrome。在 Warp.dev 上创建账户后，扩展按钮会出现在重定向页面上，一键自动添加账户。<br>
+<b>2. 手动方法:</b> 在账户创建页面，按 F12 打开控制台，粘贴 JavaScript 代码并复制 JSON 添加到程序中。<br><br>
+
+<b>Chrome 扩展安装:</b><br>
+手动安装 Chrome 扩展。安装扩展后，自动账户添加按钮会出现在 warp.dev/logged_in/remote 页面上。在正常的 logged_in 页面上，会出现页面刷新按钮。<br><br>
+
+<b>使用方法:</b><br>
+要使用添加到软件中的账户，您需要激活代理。激活后，您可以点击其中一个账户的启动按钮来激活它并继续使用 Warp 编辑器。通过"刷新限制"按钮可以即时查看账户之间的限制。''',
+
+                # 证书安装
+                'cert_title': '🔒 需要安装代理证书',
+                'cert_explanation': '''为了使 Warp 代理正常工作，需要将 mitmproxy 证书添加到受信任的根证书颁发机构中。
+
+这个过程只需进行一次，不会影响您的系统安全。''',
+                'cert_steps': '📋 安装步骤:',
+                'cert_step_1': '<b>步骤 1:</b> 点击下方的"打开证书文件"按钮',
+                'cert_step_2': '<b>步骤 2:</b> 双击打开的文件',
+                'cert_step_3': '<b>步骤 3:</b> 点击"安装证书..."按钮',
+                'cert_step_4': '<b>步骤 4:</b> 选择"本地计算机"并点击"下一步"',
+                'cert_step_5': '<b>步骤 5:</b> 选择"将所有的证书放入下列存储"',
+                'cert_step_6': '<b>步骤 6:</b> 点击"浏览"按钮',
+                'cert_step_7': '<b>步骤 7:</b> 选择"受信任的根证书颁发机构"文件夹',
+                'cert_step_8': '<b>步骤 8:</b> 点击"确定"和"下一步"按钮',
+                'cert_step_9': '<b>步骤 9:</b> 点击"完成"按钮',
+                'cert_path': '证书文件: {}',
+
+                # 自动证书安装
+                'cert_creating': '🔒 正在创建证书...',
+                'cert_created_success': '✅ 证书文件创建成功',
+                'cert_creation_failed': '❌ 证书创建失败',
+                'cert_installing': '🔒 正在检查证书安装...',
+                'cert_installed_success': '✅ 证书已自动安装',
+                'cert_install_failed': '❌ 证书安装失败 - 可能需要管理员权限',
+                'cert_install_error': '❌ 证书安装错误: {}',
+
+                # 手动证书安装对话框
+                'cert_manual_title': '🔒 需要手动安装证书',
+                'cert_manual_explanation': '''自动证书安装失败。
+
+您需要手动安装证书。这个过程只需进行一次，不会影响您的系统安全。''',
+                'cert_manual_path': '证书文件位置:',
+                'cert_manual_steps': '''<b>手动安装步骤:</b><br><br>
+<b>1.</b> 转到上面的文件路径<br>
+<b>2.</b> 双击 <code>mitmproxy-ca-cert.cer</code> 文件<br>
+<b>3.</b> 点击"安装证书..."按钮<br>
+<b>4.</b> 选择"本地计算机"并点击"下一步"<br>
+<b>5.</b> 选择"将所有的证书放入下列存储"<br>
+<b>6.</b> 点击"浏览" → 选择"受信任的根证书颁发机构"<br>
+<b>7.</b> 点击"确定" → "下一步" → "完成"''',
+                'cert_open_folder': '📁 打开证书文件夹',
+                'cert_manual_complete': '✅ 安装完成',
+
+                # 消息
+                'account_added_success': '账户添加成功',
+                'no_accounts_to_update': '没有找到要更新的账户',
+                'updating_limits': '正在更新限制...',
+                'processing_account': '正在处理: {}',
+                'refreshing_token': '正在刷新令牌: {}',
+                'accounts_updated': '{} 个账户已更新',
+                'proxy_starting': '正在启动代理...',
+                'proxy_configuring': '正在配置 Windows 代理设置...',
+                'proxy_started': '代理已启动: {}',
+                'proxy_stopped': '代理已停止',
+                'proxy_starting_account': '正在启动代理并激活 {}...',
+                'activating_account': '正在激活账户: {}...',
+                'token_refreshing': '正在刷新令牌: {}',
+                'proxy_started_account_activated': '代理已启动并激活 {}',
+                'windows_proxy_config_failed': 'Windows 代理配置失败',
+                'mitmproxy_start_failed': 'Mitmproxy 启动失败 - 请检查端口 8080',
+                'proxy_start_error': '代理启动错误: {}',
+                'proxy_stop_error': '代理停止错误: {}',
+                'account_not_found': '未找到账户',
+                'account_banned_cannot_activate': '{} 账户已被封禁 - 无法激活',
+                'account_activation_error': '激活错误: {}',
+                'token_refresh_in_progress': '令牌刷新进行中，请稍候...',
+                'token_refresh_error': '令牌刷新错误: {}',
+                'account_activated': '{} 账户已激活',
+                'account_activation_failed': '账户激活失败',
+                'proxy_unexpected_stop': '代理意外停止',
+                'account_activated': '{} 账户已激活',
+                'account_deactivated': '{} 账户已停用',
+                'account_deleted': '{} 账户已删除',
+                'token_renewed': '{} 令牌已更新',
+                'account_banned_detected': '⛔ {} 账户已被封禁!',
+                'token_renewal_progress': '🔄 {}/{} 令牌已更新',
+
+                # 错误消息
+                'invalid_json': '无效的 JSON 格式',
+                'email_not_found': '未找到邮箱',
+                'account_not_found': '未找到账户',
+                'certificate_not_found': '未找到证书文件!',
+                'file_open_error': '文件打开错误: {}',
+                'proxy_start_failed': '代理无法启动 - 请检查端口 8080',
+                'proxy_config_failed': 'Windows 代理设置配置失败',
+                'account_banned_cannot_activate': '{} 账户已被封禁 - 无法激活',
+                'token_refresh_failed': '{} 令牌无法更新',
+                'account_delete_failed': '账户删除失败',
+                'proxy_unexpected_stop': '⚠️ 代理意外停止',
+                'enable_proxy_first': '请先启动代理再激活账户',
+                'limit_info_failed': '无法获取限制信息',
+                'token_renewal_failed': '⚠️ {} 令牌无法更新',
+                'token_check_error': '❌ 令牌检查错误',
+
+                # 确认消息
+                'delete_account_confirm': '您确定要删除 \'{}\' 账户吗?\n\n此操作无法撤销!',
+
+                # 状态栏消息
+                'default_status': '启用代理并点击账户上的启动按钮开始使用。',
+                'default_status_debug': '启用代理并点击账户上的启动按钮开始使用。(调试模式已激活)',
+
+                # 调试和控制台消息
+                'stylesheet_load_error': '无法加载样式表: {}',
+                'health_update_error': '健康状态更新错误: {}',
+                'token_update_error': '令牌更新错误: {}',
+                'account_update_error': '账户更新错误: {}',
+                'active_account_set_error': '激活账户设置错误: {}',
+                'active_account_clear_error': '激活账户清除错误: {}',
+                'account_delete_error': '账户删除错误: {}',
+                'limit_info_update_error': '限制信息更新错误: {}',
+
+                'account_deactivate_failed': '账户停用失败',
+                'delete_account_title': '删除账户',
+                'bridge_account_added': '✅ Bridge：账户已添加 - {}',
+                'bridge_account_add_error': '❌ Bridge：添加账户错误 - {}',
+                'bridge_extension_connected': '🔗 Bridge：扩展已连接 - ID: {}',
+                'bridge_server_started': '🌉 桥接服务器已启动: http://localhost:{}',
+                'bridge_server_start_error': '❌ 桥接服务器启动错误: {}',
+                'bridge_server_runtime_error': '❌ 桥接服务器运行错误: {}',
+                'bridge_server_stopped': '🛑 桥接服务器已停止',
+                'bridge_setup_error': '❌ Bridge：设置错误 - {}',
+                'active_account_missing_reminder': '未找到活动账户 - 请记得激活一个账户！',
+                'table_update_error': '⚠️ 表格更新错误: {}',
+                'bridge_add_account_error': '❌ Bridge：添加账户异常 - {}',
+                'active_account_ban_mark_failed': '未找到活动账户，无法标记封禁',
+                'active_account_loaded': '活动账户已加载: {}',
+                'active_account_fetch_error': '获取活动账户错误: {}',
             }
         }
 

@@ -107,7 +107,7 @@ class BridgeRequestHandler(BaseHTTPRequestHandler):
                 success, message = self.account_manager.add_account(account_json)
 
                 if success:
-                    print(f"✅ Bridge: Hesap eklendi - {account_data.get('email', 'Unknown')}")
+                    print(_('bridge_account_added').format(account_data.get('email', 'Unknown')))
 
                     # Yanıtı hemen döndür, UI yenilemeyi arka planda tetikle
                     self._send_json_response(200, {
@@ -124,10 +124,10 @@ class BridgeRequestHandler(BaseHTTPRequestHandler):
                                 daemon=True
                             ).start()
                         except Exception as e:
-                            print(f"⚠️  Tablo güncelleme hatası: {e}")
+                            print(_('table_update_error').format(e))
                     return
                 else:
-                    print(f"❌ Bridge: Hesap ekleme hatası - {message}")
+                    print(_('bridge_account_add_error').format(message))
                     self._send_json_response(400, {
                         'success': False,
                         'error': message
@@ -138,7 +138,7 @@ class BridgeRequestHandler(BaseHTTPRequestHandler):
         except json.JSONDecodeError:
             self._send_json_response(400, {'error': 'Invalid JSON data'})
         except Exception as e:
-            print(f"❌ Bridge: Add account error - {str(e)}")
+            print(_('bridge_add_account_error').format(str(e)))
             self._send_json_response(500, {'error': f'Server error: {str(e)}'})
 
     def _handle_setup_bridge(self):
@@ -148,7 +148,7 @@ class BridgeRequestHandler(BaseHTTPRequestHandler):
             if content_length > 0:
                 body = self.rfile.read(content_length)
                 setup_data = json.loads(body.decode('utf-8'))
-                print(f"🔗 Bridge: Extension connected - ID: {setup_data.get('extensionId', 'Unknown')}")
+                print(_('bridge_extension_connected').format(setup_data.get('extensionId', 'Unknown')))
 
             self._send_json_response(200, {
                 'success': True,
@@ -157,7 +157,7 @@ class BridgeRequestHandler(BaseHTTPRequestHandler):
             })
 
         except Exception as e:
-            print(f"❌ Bridge: Setup error - {str(e)}")
+            print(_('bridge_setup_error').format(str(e)))
             self._send_json_response(500, {'error': f'Setup error: {str(e)}'})
 
     def _validate_account_data(self, data):
@@ -215,11 +215,11 @@ class WarpBridgeServer:
             self.server_thread = threading.Thread(target=self._run_server, daemon=True)
             self.server_thread.start()
 
-            print(f"🌉 Bridge Server başlatıldı: http://localhost:{self.port}")
+            print(_('bridge_server_started').format(self.port))
             return True
 
         except Exception as e:
-            print(f"❌ Bridge Server başlatma hatası: {e}")
+            print(_('bridge_server_start_error').format(e))
             return False
 
     def _run_server(self):
@@ -228,7 +228,7 @@ class WarpBridgeServer:
             self.server.serve_forever()
         except Exception as e:
             if self.running:  # Only show error if we're supposed to be running
-                print(f"❌ Bridge Server çalışma hatası: {e}")
+                print(_('bridge_server_runtime_error').format(e))
 
     def stop(self):
         """Stop the bridge server"""
@@ -237,7 +237,7 @@ class WarpBridgeServer:
             self.server.shutdown()
             if self.server_thread:
                 self.server_thread.join(timeout=2)
-            print("🛑 Bridge Server durduruldu")
+            print(_('bridge_server_stopped'))
 
     def is_running(self):
         """Check if server is running"""

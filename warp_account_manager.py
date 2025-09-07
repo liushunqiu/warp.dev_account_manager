@@ -2228,8 +2228,14 @@ class MainWindow(QMainWindow):
 
         # Dil seçici
         self.language_combo = QComboBox()
-        self.language_combo.addItems(['TR', 'EN'])
-        self.language_combo.setCurrentText('TR' if get_language_manager().get_current_language() == 'tr' else 'EN')
+        self.language_combo.addItems(['TR', 'EN', 'ZH'])
+        current_lang = get_language_manager().get_current_language()
+        if current_lang == 'tr':
+            self.language_combo.setCurrentText('TR')
+        elif current_lang == 'zh':
+            self.language_combo.setCurrentText('ZH')
+        else:
+            self.language_combo.setCurrentText('EN')
         self.language_combo.setFixedWidth(65)
         self.language_combo.setFixedHeight(36)  # Modern buton yüksekliği ile uyumlu
         self.language_combo.setStyleSheet("""
@@ -2495,7 +2501,7 @@ class MainWindow(QMainWindow):
         accounts_with_health = self.account_manager.get_accounts_with_health()
         for acc_email, _, acc_health in accounts_with_health:
             if acc_email == email and acc_health == 'banned':
-                self.show_status_message(f"{email} hesabı banlanmış - aktif edilemez", 5000)
+                self.show_status_message(_('account_banned_cannot_activate').format(email), 5000)
                 return
 
         # Aktif hesabı kontrol et
@@ -2508,7 +2514,7 @@ class MainWindow(QMainWindow):
             # Hesap aktif değil veya proxy kapalı - proxy başlat ve hesabı aktif et
             if not self.proxy_enabled:
                 # Önce proxy'yi başlat
-                self.show_status_message(f"Proxy başlatılıyor ve {email} aktif ediliyor...", 2000)
+                self.show_status_message(_('proxy_starting_account').format(email), 2000)
                 if self.start_proxy_and_activate_account(email):
                     return  # Başarılı - işlem tamamlandı
                 else:
@@ -2545,19 +2551,19 @@ class MainWindow(QMainWindow):
         if self.proxy_enabled:
             active_account = self.account_manager.get_active_account()
             if email == active_account:
-                deactivate_action = QAction("🔴 Deaktif Et", self)
+                deactivate_action = QAction(_('deactivate'), self)
                 deactivate_action.triggered.connect(lambda: self.deactivate_account(email))
                 menu.addAction(deactivate_action)
             else:
                 if health_status != 'banned':
-                    activate_action = QAction("🟢 Aktif Et", self)
+                    activate_action = QAction(_('activate'), self)
                     activate_action.triggered.connect(lambda: self.activate_account(email))
                     menu.addAction(activate_action)
 
         menu.addSeparator()
 
         # Hesap sil
-        delete_action = QAction("🗑️ Hesabı Sil", self)
+        delete_action = QAction(_('delete_account'), self)
         delete_action.triggered.connect(lambda: self.delete_account_with_confirmation(email))
         menu.addAction(delete_action)
 
@@ -2569,29 +2575,28 @@ class MainWindow(QMainWindow):
         try:
             if self.account_manager.clear_active_account():
                 self.load_accounts(preserve_limits=True)
-                self.show_status_message(f"{email} hesabı deaktif edildi", 3000)
+                self.show_status_message(_('account_deactivated').format(email), 3000)
             else:
-                self.show_status_message("Hesap deaktif edilemedi", 3000)
+                self.show_status_message(_('account_deactivate_failed'), 3000)
         except Exception as e:
-            self.show_status_message(f"Hata: {str(e)}", 5000)
+            self.show_status_message(f"{_('error')}: {str(e)}", 5000)
 
     def delete_account_with_confirmation(self, email):
         """Hesabı onay isteyerek sil"""
         try:
-            reply = QMessageBox.question(self, "Hesap Sil",
-                                       f"'{email}' hesabını silmek istediğinizden emin misiniz?\n\n"
-                                       f"Bu işlem geri alınamaz!",
+            reply = QMessageBox.question(self, _('delete_account_title'),
+                                       _('delete_account_confirm').format(email),
                                        QMessageBox.Yes | QMessageBox.No,
                                        QMessageBox.No)
 
             if reply == QMessageBox.Yes:
                 if self.account_manager.delete_account(email):
                     self.load_accounts(preserve_limits=True)
-                    self.show_status_message(f"{email} hesabı silindi", 3000)
+                    self.show_status_message(_('account_deleted').format(email), 3000)
                 else:
-                    self.show_status_message("Hesap silinemedi", 3000)
+                    self.show_status_message(_('account_delete_failed'), 3000)
         except Exception as e:
-            self.show_status_message(f"Silme hatası: {str(e)}", 5000)
+            self.show_status_message(_('account_delete_error').format(str(e)), 5000)
 
     def add_account(self):
         """Hesap ekleme dialogunu aç"""
@@ -2658,7 +2663,7 @@ class MainWindow(QMainWindow):
         """Proxy'yi başlat ve hesabı aktif et"""
         try:
             # Mitmproxy'yi başlat
-            print(f"Proxy başlatılıyor ve {email} aktif ediliyor...")
+            print(_('proxy_starting_account').format(email))
 
             # Progress dialog göster
             progress = QProgressDialog(_('proxy_starting_account').format(email), _('cancel'), 0, 0, self)
@@ -3831,7 +3836,12 @@ class MainWindow(QMainWindow):
 
     def change_language(self, language_text):
         """Dil değiştir ve UI'ı yenile"""
-        language_code = 'tr' if language_text == 'TR' else 'en'
+        if language_text == 'TR':
+            language_code = 'tr'
+        elif language_text == 'ZH':
+            language_code = 'zh'
+        else:
+            language_code = 'en'
         get_language_manager().set_language(language_code)
         self.refresh_ui_texts()
 
